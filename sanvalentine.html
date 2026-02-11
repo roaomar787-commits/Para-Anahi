@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Anahi ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Quicksand', sans-serif; }
+
+        body {
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffd1dc 30%, #e6e6fa 60%, #ffdab9 100%);
+            overflow: hidden; text-align: center;
+            transition: background 1s ease;
+        }
+        .cuadro-blanco {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 30px; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+    border: 1px solid #ff69b4; 
+    width: 250px;          /* Ancho fijo para que no se ensanche con el texto */
+    height: 200px;         /* Altura fija para que no crezca hacia abajo */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center; 
+    z-index: 2;
+    position: relative; 
+}
+
+
+        #pantalla-inicio {
+            position: fixed; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10; cursor: pointer;
+        }
+
+        #contenedor-pregunta {
+            display: none; width: 100%; justify-content: center; align-items: center;
+        }
+
+        h1 { color: #d63384; font-size: 1.8rem; margin-top: 0; font-weight: 700; }
+
+        .botones {
+            margin-top: 25px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 20px; width: 100%;
+        }
+        button {
+    padding: 15px 30px; 
+    font-size: 18px; 
+    font-weight: 700;
+    border: none; 
+    border-radius: 20px; 
+    cursor: pointer;
+    position: relative;
+    transition: all 0.1s ease; /* Transición rápida para que se sienta real */
+    
+    /* El truco del 3D: Sombra hacia abajo */
+    box-shadow: 0 8px 0px 0px rgba(0,0,0,0.2);
+}
+
+/* Color y profundidad específica para el botón SÍ */
+#btn-si { 
+    background-color: #00ced1; 
+    color: white; 
+    z-index: 999; 
+    border-bottom: 5px solid #008b8b; /* Un tono más oscuro del mismo color */
+    transition: transform 0.3s ease-out;
+}
+
+/* Color y profundidad específica para el botón NO */
+#btn-no { 
+    background-color: #bdc3c7; 
+    color: white; 
+    position: relative;
+    border-bottom: 3px solid #95a5a6; /* Un tono más oscuro del gris */
+}
+
+/* EFECTO AL PRESIONAR: Se hunde y la sombra desaparece */
+button:active {
+    transform: translateY(4px); /* Baja el botón */
+    border-bottom-width: 0px;    /* Elimina el borde inferior */
+    box-shadow: 0 2px 0px 0px rgba(0,0,0,0.2); /* Sombra mínima */
+}
+
+/* Efecto hover: solo un pequeño brillo */
+button:hover {
+    filter: brightness(1.1);
+}
+
+
+        #btn-si { background-color: #00ced1; color: white; z-index: 3; }
+        #btn-no { background-color: #bdc3c7; color: white; position: relative; }
+
+        #carta-final {
+            display: none; background: #121212; color: white;       
+            padding: 35px; border-radius: 25px;
+            box-shadow: 0 0 40px rgba(255, 105, 180, 0.5); 
+            max-width: 80%; border: 2px solid #ff69b4;
+            flex-direction: column; align-items: center; z-index: 5;
+        }
+
+        .corazon {
+            position: fixed; top: -10vh; font-size: 24px;
+            z-index: 1; animation: caer linear forwards;
+        }
+
+        @keyframes caer { to { transform: translateY(110vh) rotate(360deg); } }
+        img { width: 160px; margin-bottom: 20px; border-radius: 15px; }
+    </style>
+</head>
+<body>
+
+    <div id="pantalla-inicio" onclick="empezar()">
+        <div class="cuadro-blanco">
+            <h1>¡Hola Pelona!, tengo algo que decirte 🙊</h1>
+            <p style="color: #666;">👆 Toca la pantalla</p>
+        </div>
+    </div>
+
+    <div id="contenedor-pregunta">
+        <div class="cuadro-blanco">
+            <h1 id="texto-pregunta">¿Quieres ser mi San Valentín? 🥹️👉🏻👈🏻</h1>
+            <div class="botones">
+                <button id="btn-si" onclick="aceptar()">¡SÍ!</button>
+                <button id="btn-no" onclick="gestionarNo()">No</button>
+            </div>
+        </div>
+    </div>
+    <div id="carta-final" style="display: none; flex-direction: column; align-items: center; text-align: center;">
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4ZzBqZzBqZzBqZzBqZzBqZzBqZzBqZzBqZzBqZzBqJmVwPXYxX2ludGVybmFsX2dpZl9ieV9iZCZjdD1n/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Love" style="width: 200px;">
+    
+    <h2 id="mensaje-final" style="color: #ff69b4; font-size: 2rem; margin-top: 20px;"></h2>
+    
+    <p id="texto-bonito" style="font-size: 1.2rem; line-height: 1.5; padding: 0 20px; color: white;">
+        Gracias por hacerme el hombre más feliz del mundo y por estar siempre conmigo. <br><br>
+        Valoro más que nada en el mundo que hayamos decidido darnos esta oportunidad para volver a empezar. 
+        Gracias por aceptar que nos diéramos este nuevo comienzo; te prometo que haré que valga la pena cada segundo. 
+        Espero que nunca te vayas de mi vida porque eres mi lugar seguro. <br><br>
+        <strong>¡Te amo con todo mi corazón!</strong>
+    </p>
+</div>
+    <script>
+        let escalaSi = 1;
+        let conteoNo = 0;
+        
+        const frasesNo = [
+            "¿Segura?  💔 ",
+            "Piensalo bien... 🥺",
+            "Ándale, di que sí. 😭",
+            "No me dejas opción... ¡Atrápalo si puedes! 🏃‍♂️"
+        ];
+
+        function empezar() {
+            document.getElementById('pantalla-inicio').style.display = 'none';
+            document.getElementById('contenedor-pregunta').style.display = 'flex';
+        }
+function gestionarNo() {
+            conteoNo++;
+            const botonNo = document.getElementById('btn-no');
+            const botonSi = document.getElementById('btn-si');
+            const textoPregunta = document.getElementById('texto-pregunta');
+
+            // 1. Cambiar el texto de la pregunta (esto sí pasa desde el inicio)
+            if (conteoNo <= frasesNo.length) {
+                textoPregunta.innerText = frasesNo[conteoNo - 1];
+            }
+
+            // 2. A partir del cuarto clic, el botón NO se mueve Y el SÍ crece
+            if (conteoNo >= 4) {
+                // El SÍ crece
+                escalaSi += 0.8;
+                botonSi.style.transform = `scale(${escalaSi})`;
+                botonSi.style.position = "relative"; 
+                // El NO se mueve
+                moverBoton(botonNo);
+            }
+        }
+
+        function moverBoton(boton) {
+            const x = Math.random() * (window.innerWidth - boton.offsetWidth);
+            const y = Math.random() * (window.innerHeight - boton.offsetHeight);
+            boton.style.position = "fixed";
+            boton.style.left = x + "px";
+            boton.style.top = y + "px";
+        }
+function aceptar() {
+    const mensajeFinal = document.getElementById('mensaje-final');
+    
+    // Si NUNCA le dio al NO (conteoNo es 0)
+    if (conteoNo === 0) {
+        mensajeFinal.innerText = "¡Sabía que dirías que sí! 💖";
+    } 
+    // Si le dio al menos una vez al NO
+    else {
+        mensajeFinal.innerText = "¡No que no! 😏";
+    }
+
+    document.getElementById('contenedor-pregunta').style.display = 'none';
+    document.getElementById('carta-final').style.display = 'flex';
+    document.body.style.background = "black";
+    
+    setInterval(crearCorazon, 300);
+}
+        function crearCorazon() {
+            const corazon = document.createElement('div');
+            corazon.classList.add('corazon');
+            const tipos = ['❤️', '💖', '✨', '💕'];
+            corazon.innerHTML = tipos[Math.floor(Math.random() * tipos.length)];
+            corazon.style.left = Math.random() * 100 + "vw";
+            corazon.style.animationDuration = Math.random() * 3 + 2 + "s";
+            corazon.style.opacity = Math.random();
+            document.body.appendChild(corazon);
+            setTimeout(() => { corazon.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
